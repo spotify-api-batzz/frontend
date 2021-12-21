@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "store";
+import { Endpoints } from "types";
+import { fetchAPIRequest } from "store/reducers/common.reducer";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const dispatch = useDispatch();
+  const songs = useSelector((state) => state.common.songs.data);
+
+  // useEffect(() => {
+  //   dispatch(
+  //     fetchAPIRequest({
+  //       endpoint: Endpoints.songs,
+  //     })
+  //   );
+  // }, [dispatch]);
+
+  console.log(songs);
+
+  return <div></div>;
 }
 
 export default App;

@@ -1,27 +1,41 @@
-import { CommonActionType } from "../actions";
-import * as actionTypes from "../actions/actionTypes";
-const defaultCommonState = {};
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
+import { Endpoints, EndpointTypes } from "types";
 
-const reducer = (state = defaultCommonState, action: CommonActionType) => {
-  switch (action) {
-    case actionTypes.FETCH_API_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case actionTypes.FETCH_API_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-      };
-    case actionTypes.FETCH_API_FAILURE:
-      return {
-        ...state,
-        loading: false,
-      };
-    default:
-      return state;
-  }
+interface CommonSubState<T> {
+  data: T;
+}
+type CommonState = {
+  [T in Endpoints]: CommonSubState<EndpointTypes[T]>;
 };
 
-export default reducer;
+const createCommonSubstate = () => ({
+  data: [],
+});
+
+const initialState = Object.keys(Endpoints).reduce(
+  (prev, curr) => ({ ...prev, [curr]: createCommonSubstate() }),
+  {}
+) as CommonState;
+
+const commonSlice = createSlice({
+  name: "common",
+  initialState,
+  reducers: {
+    fetchAPIRequest(
+      state,
+      action: PayloadAction<{ query: string; endpoint: Endpoints }>
+    ) {},
+    fetchAPISuccess(
+      state,
+      action: PayloadAction<{ data: AxiosResponse<any>; endpoint: Endpoints }>
+    ) {
+      state[action.payload.endpoint].data = action.payload.data.data;
+    },
+    fetchAPIFailure(state, action: PayloadAction<number>) {},
+  },
+});
+
+export const { fetchAPIRequest, fetchAPISuccess, fetchAPIFailure } =
+  commonSlice.actions;
+export default commonSlice.reducer;
