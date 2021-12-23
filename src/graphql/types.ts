@@ -8,11 +8,9 @@ export interface ArtistByArtistId {
   name: string;
 }
 
-export type RecentListenDataByRecentListenId = NodeWrapper<RecentListenedData>;
-
 export type NodeWrapper<T> = { nodes: T[] };
 
-interface Meta {
+export interface Meta {
   pageInfo: PageInfo;
   totalCount: number;
 }
@@ -43,8 +41,10 @@ export interface UserNode {
 }
 
 export interface RecentListensNode {
-  recentListenDataByRecentListenId: RecentListenDataByRecentListenId;
+  songBySongId: SongNode;
+  playedAt: Date;
   userByUserId: UserByUserId;
+  id: string;
 }
 
 export interface Songs {
@@ -61,9 +61,4 @@ export interface RecentListens {
 
 export interface UserByUserId {
   username: string;
-}
-
-export interface RecentListenedData {
-  songBySongId: SongNode;
-  playedAt: Date;
 }

@@ -4,6 +4,7 @@ import { Endpoints, EndpointTypes } from "types";
 
 interface CommonSubState<T> {
   data: T;
+  loaded: boolean;
 }
 type CommonState = {
   [T in Endpoints]: CommonSubState<EndpointTypes[T]>;
@@ -11,6 +12,7 @@ type CommonState = {
 
 const createCommonSubstate = () => ({
   data: [],
+  loaded: false,
 });
 
 const initialState = Object.keys(Endpoints).reduce(
@@ -31,6 +33,7 @@ const commonSlice = createSlice({
       action: PayloadAction<{ data: AxiosResponse<any>; endpoint: Endpoints }>
     ) {
       state[action.payload.endpoint].data = action.payload.data.data;
+      state[action.payload.endpoint].loaded = true;
     },
     fetchAPIFailure(state, action: PayloadAction<number>) {},
   },

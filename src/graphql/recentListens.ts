@@ -1,14 +1,14 @@
-export const getRecentListens = (userId: string) => {
+export const getRecentListens = (userId: string, count = 10, offset = 0) => {
   return `
   query MyQuery {
     allRecentListens(
       orderBy: CREATED_AT_DESC
       condition: { userId: "${userId}" }
-      first: 10
+      first: ${count}
+      offset: ${offset}
     ) {
       nodes {
-        recentListenDataByRecentListenId(orderBy: PLAYED_AT_DESC) {
-          nodes {
+        id
             songBySongId {
               name
               id
@@ -26,12 +26,17 @@ export const getRecentListens = (userId: string) => {
               }
             }
             playedAt
-          }
-        }
         userByUserId {
           username
         }
       }
+      pageInfo {
+        startCursor
+        hasPreviousPage
+        hasNextPage
+        endCursor
+      }
+      totalCount
     }
   }`;
 };

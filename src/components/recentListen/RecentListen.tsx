@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 interface RecentListenProps {
   name: string;
-  diff: string;
+  diff: number;
   album?: AlbumByAlbumId;
   artist?: ArtistByArtistId;
 }
@@ -25,6 +25,12 @@ const RecentListen = ({ name, diff, album, artist }: RecentListenProps) => {
     }
   }, [album]);
 
+  const prettyString = (diff: number) => {
+    const days = diff < 24 ? `` : `${Math.floor(diff / 24)} day(s) `;
+    const hours = days === "" ? `${diff} hours` : `and ${diff % 24} hours ago`;
+    return days + hours;
+  };
+
   return (
     <SongDiv>
       {thumbnail && (
@@ -33,7 +39,9 @@ const RecentListen = ({ name, diff, album, artist }: RecentListenProps) => {
         </SongImageWrapperDiv>
       )}
       <SongInformationDiv>
-        <h1>{name}</h1>
+        <h1>
+          {name} ({prettyString(diff)})
+        </h1>
         {album && <p>{album?.name}</p>}
       </SongInformationDiv>
     </SongDiv>

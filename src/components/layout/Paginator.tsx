@@ -1,0 +1,64 @@
+import { Meta } from "graphql/types";
+import { IDAble } from "hooks/usePaginator";
+import styled from "styled-components";
+import { filter, reject } from "lodash";
+
+interface PaginatorProps {
+  nodes: IDAble[];
+  meta: Meta;
+  perPage: number;
+  curPage: number;
+  setOffset: (x: ((x: number) => number) | number) => void;
+}
+
+const PageButton = styled.button<{ isActive?: boolean }>`
+  font-weight: ${(props) => (props.isActive ? "700" : "400")};
+  border-radius: 0;
+  border: 0;
+  padding: 15px 10px;
+  margin: 0 8px 0 0;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const createBeforeAfter = (initial: number, buffer: number) =>
+  Array.from({ length: buffer * 2 + 1 }, (v, k) => initial - buffer + k);
+
+const Paginator = ({
+  nodes,
+  meta,
+  perPage,
+  setOffset,
+  curPage,
+}: PaginatorProps) => {
+  const maxPage = Math.ceil(meta.totalCount / perPage);
+  return (
+    <>
+      <PageButton
+        disabled={!meta.pageInfo.hasPreviousPage}
+        onClick={() => setOffset((e: number) => e - perPage)}
+      >
+        Back
+      </PageButton>
+      {filter(createBeforeAfter(curPage, 3), (x) => x > 0 && x < maxPage).map(
+        (pageNumber) => (
+          <PageButton
+            isActive={curPage === pageNumber}
+            onClick={() => setOffset(perPage * pageNumber)}
+          >
+            {pageNumber}
+          </PageButton>
+        )
+      )}
+      <PageButton
+        disabled={!meta.pageInfo.hasNextPage}
+        onClick={() => setOffset((e: number) => e + perPage)}
+      >
+        Next
+      </PageButton>
+    </>
+  );
+};
+
+export default Paginator;
