@@ -35,26 +35,24 @@ function RecentListens() {
     <Container>
       {recentListens.loaded && (
         <Paginator
-          meta={recentListens.data?.allRecentListens}
-          nodes={recentListens.data?.allRecentListens?.nodes}
+          meta={recentListens.data?.recentListens}
+          nodes={recentListens.data?.recentListens?.nodes}
           perPage={itemsPerPage}
           setOffset={setOffset}
           curPage={offset / itemsPerPage + 1}
         />
       )}
       <RecentListensWrapperDiv>
-        {recentListens.data?.allRecentListens?.nodes.map(
-          ({ playedAt, songBySongId }) => {
-            return (
-              <RecentListen
-                name={songBySongId.name}
-                artist={songBySongId.artistByArtistId}
-                album={songBySongId.albumByAlbumId}
-                diff={dayjs(dayjs()).diff(playedAt, "hour")}
-              />
-            );
-          }
-        )}
+        {recentListens.data?.recentListens?.nodes.map(({ playedAt, song }) => {
+          return (
+            <RecentListen
+              name={song.name}
+              artist={song.artist}
+              album={song.album}
+              diff={dayjs(dayjs()).diff(playedAt, "hour")}
+            />
+          );
+        })}
       </RecentListensWrapperDiv>
     </Container>
   );

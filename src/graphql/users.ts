@@ -1,7 +1,7 @@
 export const getUsers = () => {
   return `
     query MyQuery {
-      allUsers {
+      users {
         nodes {
           username
           id

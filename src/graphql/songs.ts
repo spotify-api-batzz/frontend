@@ -3,11 +3,11 @@ import { Songs } from "./types";
 export const getAllSongs = (offset = 0, count = 500) => {
   return `
   query MyQuery {
-    allSongs(offset: ${offset}, first: ${count}) {
+    songs(offset: ${offset}, first: ${count}) {
       nodes {
         name
         id
-        albumByAlbumId {
+        album {
           name
           createdAt
           thumbnails {
@@ -16,7 +16,7 @@ export const getAllSongs = (offset = 0, count = 500) => {
             }
           }
         }
-        artistByArtistId {
+        artist {
           name
         }
       }

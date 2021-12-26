@@ -3,15 +3,15 @@ import {
   SongImageWrapperDiv,
   SongInformationDiv,
 } from "components/songs/Song";
-import { AlbumByAlbumId, ArtistByArtistId, ThumbnailNode } from "graphql/types";
+import { Album, Artist, ThumbnailNode } from "graphql/types";
 import { smallestThumbnail } from "helpers/api";
 import { useEffect, useState } from "react";
 
 interface RecentListenProps {
   name: string;
   diff: number;
-  album?: AlbumByAlbumId;
-  artist?: ArtistByArtistId;
+  album?: Album;
+  artist?: Artist;
 }
 
 const RecentListen = ({ name, diff, album, artist }: RecentListenProps) => {

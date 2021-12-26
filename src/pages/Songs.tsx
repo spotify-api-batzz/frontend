@@ -18,16 +18,9 @@ function App() {
 
   return (
     <Container>
-      {songs?.allSongs?.nodes.map(
-        ({ id, name, artistByArtistId, albumByAlbumId }) => (
-          <Song
-            key={id}
-            name={name}
-            artist={artistByArtistId}
-            album={albumByAlbumId}
-          />
-        )
-      )}
+      {songs?.songs?.nodes.map(({ id, name, artist, album }) => (
+        <Song key={id} name={name} artist={artist} album={album} />
+      ))}
     </Container>
   );
 }

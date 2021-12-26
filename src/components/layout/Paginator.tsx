@@ -17,6 +17,7 @@ const PageButton = styled.button<{ isActive?: boolean }>`
   border: 0;
   padding: 15px 10px;
   margin: 0 8px 0 0;
+  min-width: 40px;
   &:hover {
     cursor: pointer;
   }
@@ -41,15 +42,21 @@ const Paginator = ({
       >
         Back
       </PageButton>
-      {filter(createBeforeAfter(curPage, 3), (x) => x > 0 && x < maxPage).map(
-        (pageNumber) => (
-          <PageButton
-            isActive={curPage === pageNumber}
-            onClick={() => setOffset(perPage * pageNumber)}
-          >
-            {pageNumber}
-          </PageButton>
-        )
+      {filter(createBeforeAfter(curPage, 2), (x) => x > 0 && x <= maxPage).map(
+        (pageNumber) => {
+          console.log(pageNumber);
+          return (
+            <PageButton
+              isActive={curPage === pageNumber}
+              onClick={() => {
+                console.log(pageNumber);
+                setOffset(perPage * (pageNumber - 1));
+              }}
+            >
+              {pageNumber}
+            </PageButton>
+          );
+        }
       )}
       <PageButton
         disabled={!meta.pageInfo.hasNextPage}

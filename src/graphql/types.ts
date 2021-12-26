@@ -1,11 +1,13 @@
-export interface AlbumByAlbumId {
+export interface Album {
   name: string;
   createdAt: Date;
   thumbnails: NodeWrapper<ThumbnailNode>;
 }
 
-export interface ArtistByArtistId {
+export interface Artist {
   name: string;
+  id: string;
+  thumbnails: NodeWrapper<ThumbnailNode>;
 }
 
 export type NodeWrapper<T> = { nodes: T[] };
@@ -25,8 +27,8 @@ export interface PageInfo {
 export interface SongNode {
   name: string;
   id: string;
-  albumByAlbumId: AlbumByAlbumId;
-  artistByArtistId: ArtistByArtistId;
+  album: Album;
+  artist: Artist;
 }
 
 export interface ThumbnailNode {
@@ -41,24 +43,63 @@ export interface UserNode {
 }
 
 export interface RecentListensNode {
-  songBySongId: SongNode;
+  song: SongNode;
   playedAt: Date;
-  userByUserId: UserByUserId;
+  user: User;
   id: string;
 }
 
+export interface TopSongsNode {
+  createdAt: Date;
+  user: User;
+  topSongData: NodeWrapper<TopSongData>;
+}
+
+export interface TopArtistsNode {
+  createdAt: Date;
+  user: User;
+  topArtistData: NodeWrapper<TopArtistData>;
+}
+
 export interface Songs {
-  allSongs: NodeWrapper<SongNode> & Meta;
+  songs: NodeWrapper<SongNode> & Meta;
 }
 
 export interface Users {
-  allUsers: NodeWrapper<UserNode> & Meta;
+  users: NodeWrapper<UserNode> & Meta;
+}
+
+export interface TopSongs {
+  topSongs: NodeWrapper<TopSongsNode>;
+}
+
+export interface TopArtists {
+  topArtists: NodeWrapper<TopArtistsNode>;
 }
 
 export interface RecentListens {
-  allRecentListens: NodeWrapper<RecentListensNode> & Meta;
+  recentListens: NodeWrapper<RecentListensNode> & Meta;
 }
 
-export interface UserByUserId {
+export interface User {
   username: string;
+}
+
+export interface Song {
+  name: string;
+  id: string;
+  album?: Album;
+  artist?: Artist;
+}
+
+export interface TopSongData {
+  order: number;
+  id: string;
+  song: Song;
+}
+
+export interface TopArtistData {
+  order: number;
+  id: string;
+  artist: Artist;
 }

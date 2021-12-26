@@ -1,7 +1,7 @@
 export const getRecentListens = (userId: string, count = 10, offset = 0) => {
   return `
   query MyQuery {
-    allRecentListens(
+    recentListens(
       orderBy: CREATED_AT_DESC
       condition: { userId: "${userId}" }
       first: ${count}
@@ -9,10 +9,10 @@ export const getRecentListens = (userId: string, count = 10, offset = 0) => {
     ) {
       nodes {
         id
-            songBySongId {
+            song {
               name
               id
-              albumByAlbumId {
+              album {
                 name
                 createdAt
                 thumbnails {
@@ -21,12 +21,12 @@ export const getRecentListens = (userId: string, count = 10, offset = 0) => {
                   }
                 }
               }
-              artistByArtistId {
+              artist {
                 name
               }
             }
             playedAt
-        userByUserId {
+        user {
           username
         }
       }

@@ -1,4 +1,10 @@
-import { RecentListens, Songs, Users } from "graphql/types";
+import {
+  RecentListens,
+  Songs,
+  TopArtists,
+  TopSongs,
+  Users,
+} from "graphql/types";
 
 export enum Endpoints {
   songs = "songs",
@@ -7,6 +13,8 @@ export enum Endpoints {
   thumbnails = "thumbnails",
   users = "users",
   recentListens = "recentListens",
+  topSongs = "topSongs",
+  topArtists = "topArtists",
 }
 
 export interface EndpointTypes {
@@ -15,6 +23,8 @@ export interface EndpointTypes {
   artists: {};
   thumbnails: {};
   recentListens: RecentListens;
+  topSongs: TopSongs;
+  topArtists: TopArtists;
   users: Users;
 }
 

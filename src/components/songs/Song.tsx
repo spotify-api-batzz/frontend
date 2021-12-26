@@ -1,12 +1,12 @@
 import { smallestThumbnail } from "helpers/api";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AlbumByAlbumId, ArtistByArtistId, ThumbnailNode } from "graphql/types";
+import { Album, Artist, ThumbnailNode } from "graphql/types";
 
 interface SongProps {
   name: string;
-  album?: AlbumByAlbumId;
-  artist?: ArtistByArtistId;
+  album?: Album;
+  artist?: Artist;
 }
 
 export const SongDiv = styled.div`

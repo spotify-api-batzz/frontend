@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderWrapperDiv = styled.div`
@@ -5,12 +6,17 @@ const HeaderWrapperDiv = styled.div`
   height: 100px;
   display: flex;
   align-items: center;
-  div {
+  > div {
     width: 90%;
     margin: auto;
-    h1 {
-      margin: 0;
-      font-size: 22px;
+    > a {
+      text-decoration: none;
+      > h1 {
+        color: #000;
+        text-underline: none;
+        margin: 0;
+        font-size: 22px;
+      }
     }
   }
 `;
@@ -19,7 +25,9 @@ const Header = () => {
   return (
     <HeaderWrapperDiv>
       <div>
-        <h1>Spotify Listening History</h1>
+        <Link to={`/`}>
+          <h1>Spotify Data</h1>
+        </Link>
       </div>
     </HeaderWrapperDiv>
   );

@@ -6,13 +6,19 @@ import { fetchAPIRequest, fetchAPISuccess } from "../reducers/common.reducer";
 // Helpers
 import request from "helpers/request";
 import { AxiosResponse } from "axios";
+import queryString from "query-string";
+import { Buffer } from "buffer";
 
 function* get({
   payload: { query, endpoint },
 }: ReturnType<typeof fetchAPIRequest>) {
   try {
-    let req: AxiosResponse<any> = yield request.post(`/graphql`, {
-      query,
+    const b64Query = Buffer.from(query).toString("base64");
+    const queryParams = queryString.stringify({ query: b64Query });
+    let req: AxiosResponse<any> = yield request.get(`/?${queryParams}`, {
+      headers: {
+        "x-cache-age-key": endpoint,
+      },
     });
 
     yield put(
