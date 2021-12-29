@@ -2,16 +2,19 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import { Endpoints, EndpointTypes } from "types";
 
-interface CommonSubState<T> {
+type CommonSubState<T> = {
   data: T;
+  loading: boolean;
   loaded: boolean;
-}
+};
+
 type CommonState = {
   [T in Endpoints]: CommonSubState<EndpointTypes[T]>;
 };
 
 const createCommonSubstate = () => ({
   data: [],
+  loading: false,
   loaded: false,
 });
 
@@ -27,13 +30,18 @@ const commonSlice = createSlice({
     fetchAPIRequest(
       state,
       action: PayloadAction<{ query: string; endpoint: Endpoints }>
-    ) {},
+    ) {
+      state[action.payload.endpoint].loading = true;
+      state[action.payload.endpoint].loaded = false;
+      state[action.payload.endpoint].data = [];
+    },
     fetchAPISuccess(
       state,
       action: PayloadAction<{ data: AxiosResponse<any>; endpoint: Endpoints }>
     ) {
-      state[action.payload.endpoint].data = action.payload.data.data;
+      state[action.payload.endpoint].loading = false;
       state[action.payload.endpoint].loaded = true;
+      state[action.payload.endpoint].data = action.payload.data;
     },
     fetchAPIFailure(state, action: PayloadAction<number>) {},
   },

@@ -8,7 +8,7 @@ interface RenderParams {
 }
 
 interface TooltipProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   wrapper?: JSX.Element;
   render: (params: RenderParams) => JSX.Element;
 }
@@ -25,6 +25,11 @@ const Tooltip = ({ children, wrapper, render }: TooltipProps) => {
     onMouseOver: (e) => {
       if (visible) return;
       setVisible(true);
+      setRenderParams({
+        mouseX: e.clientX,
+        mouseY: e.clientY,
+        target: e.target,
+      });
     },
     onMouseMove: (e) => {
       setRenderParams({

@@ -17,7 +17,7 @@ function Users() {
   return (
     <Container>
       {users?.users?.nodes.map(({ id, username }) => (
-        <User id={id} name={username} />
+        <User key={id} id={id} name={username} />
       ))}
     </Container>
   );

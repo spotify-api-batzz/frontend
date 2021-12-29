@@ -77,7 +77,7 @@ function TopArtists() {
   }, [dispatch, params, timePeriod]);
 
   useEffect(() => {
-    if (topSongs.loaded) {
+    if (topSongs.loading) {
       const grouped = groupBy(topSongs.data.topArtists.nodes, (topArtist) =>
         dayjs(topArtist.createdAt).year()
       );
@@ -113,14 +113,13 @@ function TopArtists() {
         ))}
       </select>
       <TopSongContainerDiv>
-        {topSongs.loaded &&
+        {topSongs.loading &&
           Object.keys(groupedData).map((year) => {
             return (
               <TopSongYearDiv>
                 <h1>{year}</h1>
                 <div>
                   {groupedData[year].map((node, i) => {
-                    console.log(node);
                     return (
                       <TopSongMarkerDiv>
                         {node.topArtistData.nodes.map((artistNode) => (

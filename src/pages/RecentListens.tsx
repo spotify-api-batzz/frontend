@@ -33,7 +33,7 @@ function RecentListens() {
 
   return (
     <Container>
-      {recentListens.loaded && (
+      {recentListens.loading && (
         <Paginator
           meta={recentListens.data?.recentListens}
           nodes={recentListens.data?.recentListens?.nodes}

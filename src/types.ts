@@ -5,6 +5,7 @@ import {
   TopSongs,
   Users,
 } from "graphql/types";
+export type PartialRecord<K extends keyof any, T> = Partial<Record<K, T>>;
 
 export enum Endpoints {
   songs = "songs",

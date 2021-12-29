@@ -8,6 +8,33 @@ import request from "helpers/request";
 import { AxiosResponse } from "axios";
 import queryString from "query-string";
 import { Buffer } from "buffer";
+import { Endpoints, EndpointTypes } from "types";
+import { isEqual, map } from "lodash";
+import { TopSongs } from "graphql/types";
+
+let topSongHandler = (data: TopSongs) => {
+  data.topSongs.nodes = data.topSongs?.nodes.filter((node, i) => {
+    const isSameAsLast = isEqual(
+      map(node.topSongData.nodes, (a) => a.song.id),
+      map(data.topSongs.nodes[i - 1]?.topSongData.nodes, (a) => a.song.id)
+    );
+    if (isSameAsLast) return false;
+    return true;
+  });
+  return data;
+};
+
+// figure out stronger typing if possible, not a fan of the casting
+const applyEndpointMiddleware = <T extends keyof typeof Endpoints>(
+  endpoint: T,
+  data: EndpointTypes[T]
+): any => {
+  switch (endpoint) {
+    case "topSongs":
+      return topSongHandler(data as TopSongs);
+  }
+  return data;
+};
 
 function* get({
   payload: { query, endpoint },
@@ -21,9 +48,11 @@ function* get({
       },
     });
 
+    const data = applyEndpointMiddleware(endpoint, req.data.data);
+
     yield put(
       fetchAPISuccess({
-        data: req.data,
+        data,
         endpoint,
       })
     );

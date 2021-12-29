@@ -8,14 +8,27 @@ export enum timePeriods {
 
 export const getTopSongs = (
   userId: string,
+  startDate: string,
+  endDate: string,
   time = timePeriods.short,
   count = 5
 ) => {
   return `
   query MyQuery {
-    topSongs(first: ${count}, condition:{userId:"${userId}"}, orderBy:CREATED_AT_DESC) {
+    topSongs(
+      first: ${count}
+      filter: {
+        userId: { equalTo: "${userId}" }
+        createdAt: {
+          greaterThanOrEqualTo: "${startDate}"
+          lessThanOrEqualTo: "${endDate}"
+        }
+      }
+      orderBy: CREATED_AT_DESC
+    ) {
       nodes {
         createdAt
+        id
         user {
           username
         }
@@ -34,6 +47,8 @@ export const getTopSongs = (
                 thumbnails{
                   nodes {
                     url
+                    height
+                    width
                   }
                 }
               }

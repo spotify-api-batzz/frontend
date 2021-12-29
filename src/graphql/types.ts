@@ -50,6 +50,7 @@ export interface RecentListensNode {
 }
 
 export interface TopSongsNode {
+  id: string;
   createdAt: Date;
   user: User;
   topSongData: NodeWrapper<TopSongData>;
