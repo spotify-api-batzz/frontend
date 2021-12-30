@@ -57,6 +57,7 @@ export interface TopSongsNode {
 }
 
 export interface TopArtistsNode {
+  id: string;
   createdAt: Date;
   user: User;
   topArtistData: NodeWrapper<TopArtistData>;
