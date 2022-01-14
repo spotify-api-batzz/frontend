@@ -2,7 +2,7 @@ export const getRecentListens = (userId: string, count = 10, offset = 0) => {
   return `
   query MyQuery {
     recentListens(
-      orderBy: CREATED_AT_DESC
+      orderBy: PLAYED_AT_DESC
       condition: { userId: "${userId}" }
       first: ${count}
       offset: ${offset}

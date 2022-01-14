@@ -8,7 +8,7 @@ import request from "helpers/request";
 import { AxiosResponse } from "axios";
 import queryString from "query-string";
 import { Buffer } from "buffer";
-import { Endpoints, EndpointTypes } from "types";
+import { Endpoints, EndpointResponses } from "types";
 import { isEqual, map } from "lodash";
 import { TopSongs } from "graphql/types";
 
@@ -27,7 +27,7 @@ let topSongHandler = (data: TopSongs) => {
 // figure out stronger typing if possible, not a fan of the casting
 const applyEndpointMiddleware = <T extends keyof typeof Endpoints>(
   endpoint: T,
-  data: EndpointTypes[T]
+  data: EndpointResponses[T]
 ): any => {
   switch (endpoint) {
     case "topSongs":

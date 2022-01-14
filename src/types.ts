@@ -18,7 +18,7 @@ export enum Endpoints {
   topArtists = "topArtists",
 }
 
-export interface EndpointTypes {
+export interface EndpointResponses {
   songs: Songs;
   albums: {};
   artists: {};

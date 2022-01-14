@@ -31,28 +31,32 @@ function RecentListens() {
     );
   }, [dispatch, params, offset]);
 
+  console.log(recentListens.meta);
+
   return (
     <Container>
-      {recentListens.loading && (
+      {recentListens.meta && (
         <Paginator
-          meta={recentListens.data?.recentListens}
-          nodes={recentListens.data?.recentListens?.nodes}
+          meta={recentListens.meta}
           perPage={itemsPerPage}
           setOffset={setOffset}
           curPage={offset / itemsPerPage + 1}
         />
       )}
       <RecentListensWrapperDiv>
-        {recentListens.data?.recentListens?.nodes.map(({ playedAt, song }) => {
-          return (
-            <RecentListen
-              name={song.name}
-              artist={song.artist}
-              album={song.album}
-              diff={dayjs(dayjs()).diff(playedAt, "hour")}
-            />
-          );
-        })}
+        {recentListens.data?.recentListens?.nodes.map(
+          ({ id, playedAt, song }) => {
+            return (
+              <RecentListen
+                key={id}
+                name={song.name}
+                artist={song.artist}
+                album={song.album}
+                diff={dayjs(dayjs()).diff(playedAt, "hour")}
+              />
+            );
+          }
+        )}
       </RecentListensWrapperDiv>
     </Container>
   );

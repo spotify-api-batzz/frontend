@@ -1,10 +1,8 @@
 import { Meta } from "graphql/types";
-import { IDAble } from "hooks/usePaginator";
 import styled from "styled-components";
-import { filter, reject } from "lodash";
+import { filter } from "lodash";
 
 interface PaginatorProps {
-  nodes: IDAble[];
   meta: Meta;
   perPage: number;
   curPage: number;
@@ -26,13 +24,7 @@ const PageButton = styled.button<{ isActive?: boolean }>`
 const createBeforeAfter = (initial: number, buffer: number) =>
   Array.from({ length: buffer * 2 + 1 }, (v, k) => initial - buffer + k);
 
-const Paginator = ({
-  nodes,
-  meta,
-  perPage,
-  setOffset,
-  curPage,
-}: PaginatorProps) => {
+const Paginator = ({ meta, perPage, setOffset, curPage }: PaginatorProps) => {
   const maxPage = Math.ceil(meta.totalCount / perPage);
   return (
     <>
@@ -44,12 +36,11 @@ const Paginator = ({
       </PageButton>
       {filter(createBeforeAfter(curPage, 2), (x) => x > 0 && x <= maxPage).map(
         (pageNumber) => {
-          console.log(pageNumber);
           return (
             <PageButton
+              key={pageNumber}
               isActive={curPage === pageNumber}
               onClick={() => {
-                console.log(pageNumber);
                 setOffset(perPage * (pageNumber - 1));
               }}
             >

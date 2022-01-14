@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AxiosResponse } from "axios";
-import { Endpoints, EndpointTypes } from "types";
+import { Meta } from "graphql/types";
+import { pick } from "lodash";
+import { Endpoints, EndpointResponses } from "types";
 
 type CommonSubState<T> = {
   data: T;
   loading: boolean;
   loaded: boolean;
+  meta?: Meta;
 };
 
 type CommonState = {
-  [T in Endpoints]: CommonSubState<EndpointTypes[T]>;
+  [T in Endpoints]: CommonSubState<EndpointResponses[T]>;
 };
 
 const createCommonSubstate = () => ({
@@ -17,6 +19,12 @@ const createCommonSubstate = () => ({
   loading: false,
   loaded: false,
 });
+
+const deriveMeta = (data: any): Meta | undefined => {
+  if ("pageInfo" in data) {
+    return pick(data, ["pageInfo", "totalCount"]);
+  }
+};
 
 const initialState = Object.keys(Endpoints).reduce(
   (prev, curr) => ({ ...prev, [curr]: createCommonSubstate() }),
@@ -31,17 +39,22 @@ const commonSlice = createSlice({
       state,
       action: PayloadAction<{ query: string; endpoint: Endpoints }>
     ) {
-      state[action.payload.endpoint].loading = true;
-      state[action.payload.endpoint].loaded = false;
-      state[action.payload.endpoint].data = [];
+      const stateToUpdate = state[action.payload.endpoint];
+      stateToUpdate.loading = true;
+      stateToUpdate.loaded = false;
+      stateToUpdate.data = [];
     },
     fetchAPISuccess(
       state,
-      action: PayloadAction<{ data: AxiosResponse<any>; endpoint: Endpoints }>
+      action: PayloadAction<{ data: EndpointResponses; endpoint: Endpoints }>
     ) {
-      state[action.payload.endpoint].loading = false;
-      state[action.payload.endpoint].loaded = true;
-      state[action.payload.endpoint].data = action.payload.data;
+      const stateToUpdate = state[action.payload.endpoint];
+      stateToUpdate.loading = false;
+      stateToUpdate.loaded = true;
+      stateToUpdate.data = action.payload.data;
+      stateToUpdate.meta = deriveMeta(
+        action.payload.data[action.payload.endpoint]
+      );
     },
     fetchAPIFailure(state, action: PayloadAction<number>) {},
   },
