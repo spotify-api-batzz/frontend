@@ -13,7 +13,7 @@ import SongCard from "components/songs/SongCard";
 import Tooltip from "components/helpers/Tooltip";
 import Button from "components/helpers/Button";
 
-const TopArtContainerDiv = styled.div`
+export const TopArtContainerDiv = styled.div`
   margin: 0 0 10px;
   p {
     margin: 0;
@@ -21,7 +21,7 @@ const TopArtContainerDiv = styled.div`
   }
 `;
 
-const TopArtWrapperDiv = styled.div`
+export const TopArtWrapperDiv = styled.div`
   display: flex;
   overflow: scroll;
   align-items: center;
@@ -29,7 +29,7 @@ const TopArtWrapperDiv = styled.div`
   padding: 10px 0 10px 0;
 `;
 
-const ArtContainerDiv = styled.div`
+export const ArtContainerDiv = styled.div`
   height: 60px;
   margin: 0 10px 0 0;
   img {
@@ -39,11 +39,11 @@ const ArtContainerDiv = styled.div`
   }
 `;
 
-const TopSongsDiv = styled.div`
+export const TopContentDiv = styled.div`
   // overflow-y: scroll;
 `;
 
-const TopSongYearDiv = styled.div`
+export const TopContentYearDiv = styled.div`
   position: relative;
   width: 100%;
   box-sizing: border-box;
@@ -58,11 +58,11 @@ const TopSongYearDiv = styled.div`
   }
 `;
 
-const TopSongContainerDiv = styled.div`
+export const TopContentContainerDiv = styled.div`
   margin: 0 0 10px 0;
 `;
 
-const DayMarkerDiv = styled.div`
+export const DayMarkerDiv = styled.div`
   width: 40px;
   height: 100%;
   display: flex;
@@ -78,7 +78,7 @@ const DayMarkerDiv = styled.div`
   }
 `;
 
-const MonthContainerDiv = styled.div`
+export const MonthContainerDiv = styled.div`
   display: flex;
   width: 100%;
   background-color: #000;
@@ -119,7 +119,6 @@ function TopSongs() {
     end: Dayjs;
   }>({ start: dayjs().startOf("month"), end: dayjs().endOf("month") });
   const [scrollLock, setScrollLock] = useState(false);
-  // const [scroll, setScroll] = useState(0);
   const refs = useRef<Record<string, HTMLDivElement>>({});
 
   useEffect(() => {
@@ -153,8 +152,8 @@ function TopSongs() {
 
   return (
     <Container>
-      <TopSongContainerDiv>
-        <TopSongYearDiv>
+      <TopContentContainerDiv>
+        <TopContentYearDiv>
           <h1>{start.format("YYYY")}</h1>
           <MonthContainerDiv>
             <div>
@@ -180,7 +179,7 @@ function TopSongs() {
           Scroll lock
           {topSongs.loading && <div>loading</div>}
           {topSongs.loaded && (
-            <TopSongsDiv>
+            <TopContentDiv>
               {topSongs.data.topSongs.nodes.map((node) => {
                 const curDate = dayjs(node.createdAt);
                 return (
@@ -231,10 +230,10 @@ function TopSongs() {
                   </TopArtContainerDiv>
                 );
               })}
-            </TopSongsDiv>
+            </TopContentDiv>
           )}
-        </TopSongYearDiv>
-      </TopSongContainerDiv>
+        </TopContentYearDiv>
+      </TopContentContainerDiv>
     </Container>
   );
 }

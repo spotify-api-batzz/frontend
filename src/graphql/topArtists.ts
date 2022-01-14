@@ -8,12 +8,22 @@ export enum timePeriods {
 
 export const getTopArtists = (
   userId: string,
+  startDate: string,
+  endDate: string,
   time = timePeriods.short,
   count = 5
 ) => {
   return `
   query MyQuery {
-    topArtists(first: ${count}, condition:{userId:"${userId}"}, orderBy:CREATED_AT_DESC) {
+    topArtists(first: ${count},       
+      filter: {
+        userId: { equalTo: "${userId}" }
+        createdAt: {
+          greaterThanOrEqualTo: "${startDate}"
+          lessThanOrEqualTo: "${endDate}"
+        }
+      },
+      orderBy:CREATED_AT_DESC) {
       nodes {
         user {
           username
