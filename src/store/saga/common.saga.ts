@@ -42,7 +42,7 @@ function* get({
   try {
     const b64Query = Buffer.from(query).toString("base64");
     const queryParams = queryString.stringify({ query: b64Query });
-    let req: AxiosResponse<any> = yield request.get(`/?${queryParams}`, {
+    let req: AxiosResponse<any> = yield request.get(`/graphql?${queryParams}`, {
       headers: {
         "x-cache-age-key": endpoint,
       },

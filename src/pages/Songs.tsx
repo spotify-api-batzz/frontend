@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "store";
+import { useDispatch, useSelector, useShallowSelector } from "store";
 import { Endpoints } from "types";
 import { fetchAPIRequest } from "store/reducers/common.reducer";
 import { Song } from "components/songs/Song";
@@ -8,7 +8,7 @@ import Container from "components/layout/Container";
 
 function App() {
   const dispatch = useDispatch();
-  const songs = useSelector((state) => state.common.songs.data);
+  const songs = useShallowSelector((state) => state.common.songs.data);
 
   useEffect(() => {
     dispatch(

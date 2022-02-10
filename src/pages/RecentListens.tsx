@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "store";
+import { useDispatch, useSelector, useShallowSelector } from "store";
 import { Endpoints } from "types";
 import { fetchAPIRequest } from "store/reducers/common.reducer";
 import { getRecentListens } from "graphql/recentListens";
@@ -19,7 +19,9 @@ const itemsPerPage = 25;
 function RecentListens() {
   const params = useParams();
   const dispatch = useDispatch();
-  const recentListens = useSelector((state) => state.common.recentListens);
+  const recentListens = useShallowSelector(
+    (state) => state.common.recentListens
+  );
   const [offset, setOffset] = useState<number>(0);
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
+  DefaultRootState,
+  shallowEqual,
   TypedUseSelectorHook,
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector,
@@ -24,5 +26,8 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const useDispatch = () => useReduxDispatch<AppDispatch>();
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
+export const useShallowSelector = <TSelected>(
+  selector: (state: RootState) => TSelected
+) => useSelector(selector, shallowEqual);
 
 export default store;

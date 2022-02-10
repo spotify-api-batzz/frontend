@@ -1,5 +1,5 @@
 import React, { UIEventHandler, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "store";
+import { useDispatch, useSelector, useShallowSelector } from "store";
 import { Endpoints } from "types";
 import { fetchAPIRequest } from "store/reducers/common.reducer";
 import { useParams } from "react-router-dom";
@@ -112,7 +112,7 @@ const smallestThumbnail = (nodes: ThumbnailNode[]): ThumbnailNode => {
 function TopSongs() {
   const params = useParams();
   const dispatch = useDispatch();
-  const topSongs = useSelector((state) => state.common.topSongs);
+  const topSongs = useShallowSelector((state) => state.common.topSongs);
   const [timePeriod, setTimePeriod] = useState<timePeriods>(timePeriods.short);
   const [{ start, end }, setSelectedMonths] = useState<{
     start: Dayjs;
