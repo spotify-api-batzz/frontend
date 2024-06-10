@@ -11,6 +11,9 @@ import { Buffer } from "buffer";
 import { Endpoints, EndpointResponses } from "types";
 import { isEqual, map } from "lodash";
 import { TopSongs } from "graphql/types";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 let topSongHandler = (data: TopSongs) => {
   data.topSongs.nodes = data.topSongs?.nodes.filter((node, i) => {
@@ -36,12 +39,26 @@ const applyEndpointMiddleware = <T extends keyof typeof Endpoints>(
   return data;
 };
 
+const getEndpointTime = (endpoint: keyof typeof Endpoints) => {
+  const utcHour = dayjs.utc().hour();
+  let divideBy = 1;
+  if (endpoint === "recentListens") {
+    divideBy = 1;
+  } else {
+    divideBy = 6;
+  }
+
+  return Math.floor(utcHour / divideBy);
+};
+
 function* get({
   payload: { query, endpoint },
 }: ReturnType<typeof fetchAPIRequest>) {
   try {
     const b64Query = Buffer.from(query).toString("base64");
-    const queryParams = queryString.stringify({ query: b64Query });
+    const hour = getEndpointTime(endpoint);
+    const queryParams = queryString.stringify({ query: b64Query, hour });
+
     let req: AxiosResponse<any> = yield request.get(`/graphql?${queryParams}`, {
       headers: {
         "x-cache-age-key": endpoint,
