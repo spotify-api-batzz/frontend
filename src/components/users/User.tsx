@@ -37,9 +37,9 @@ export const User = ({ name, id }: UserProps) => {
         <Link to={`/${id}/recentListens`}>
           <h2>Listening History</h2>
         </Link>
-        <Link to={`/${id}/aggregate`}>
+        {/* <Link to={`/${id}/aggregate`}>
           <h2>Aggregates</h2>
-        </Link>
+        </Link> */}
       </div>
     </UserDiv>
   );
