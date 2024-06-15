@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector, useShallowSelector } from "store";
-import { Endpoints } from "types";
-import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { getRecentListens } from "graphql/recentListens";
-import { useParams } from "react-router-dom";
-import RecentListen from "components/recentListen/RecentListen";
-import dayjs from "dayjs";
 import Container from "components/layout/Container";
 import Paginator from "components/layout/Paginator";
+import RecentListen from "components/recentListen/RecentListen";
+import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useShallowSelector } from "store";
+import { fetchAPIRequest } from "store/reducers/common.reducer";
 import styled from "styled-components";
+import { Endpoints } from "types";
 
 const RecentListensWrapperDiv = styled.div`
   margin: 20px 0 0 0;
@@ -20,16 +19,17 @@ function RecentListens() {
   const params = useParams();
   const dispatch = useDispatch();
   const recentListens = useShallowSelector(
-    (state) => state.common.recentListens
+    (state) => state.common.recentListens,
   );
   const [offset, setOffset] = useState<number>(0);
 
   useEffect(() => {
     dispatch(
       fetchAPIRequest({
-        query: getRecentListens(params.id!, itemsPerPage, offset),
+        operationName: "getRecentListens",
+        variables: { userId: params.id!, first: itemsPerPage, offset },
         endpoint: Endpoints.recentListens,
-      })
+      }),
     );
   }, [dispatch, params, offset]);
 
@@ -57,7 +57,7 @@ function RecentListens() {
                 diff={dayjs(dayjs()).diff(playedAt, "hour")}
               />
             );
-          }
+          },
         )}
       </RecentListensWrapperDiv>
     </Container>

@@ -1,5 +1,4 @@
-import { ThumbnailNode } from "graphql/types";
-import { APIJoin, ThumbnailsEndpoint } from "types";
+import { ThumbnailNode } from "types";
 
 export const smallestThumbnail = (thumbnails: ThumbnailNode[]) => {
   let chosen = thumbnails[0];

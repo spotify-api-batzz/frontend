@@ -1,17 +1,15 @@
-import React, { UIEventHandler, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector, useShallowSelector } from "store";
-import { Endpoints } from "types";
-import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { useParams } from "react-router-dom";
-import dayjs, { Dayjs } from "dayjs";
-import Container from "components/layout/Container";
-import styled from "styled-components";
-import { getTopSongs, timePeriods } from "graphql/topSongs";
-import { capitalize, isEqual, map } from "lodash";
-import { ThumbnailNode, TopSongsNode } from "graphql/types";
-import SongCard from "components/songs/SongCard";
-import Tooltip from "components/helpers/Tooltip";
 import Button from "components/helpers/Button";
+import Tooltip from "components/helpers/Tooltip";
+import Container from "components/layout/Container";
+import SongCard from "components/songs/SongCard";
+import dayjs, { Dayjs } from "dayjs";
+import { capitalize } from "lodash";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useShallowSelector } from "store";
+import { fetchAPIRequest } from "store/reducers/common.reducer";
+import styled from "styled-components";
+import { Endpoints, ThumbnailNode, TimePeriods, timePeriods } from "types";
 
 export const TopArtContainerDiv = styled.div`
   margin: 0 0 10px;
@@ -113,7 +111,7 @@ function TopSongs() {
   const params = useParams();
   const dispatch = useDispatch();
   const topSongs = useShallowSelector((state) => state.common.topSongs);
-  const [timePeriod, setTimePeriod] = useState<timePeriods>(timePeriods.short);
+  const [timePeriod, setTimePeriod] = useState<TimePeriods>(timePeriods.short);
   const [{ start, end }, setSelectedMonths] = useState<{
     start: Dayjs;
     end: Dayjs;
@@ -122,17 +120,19 @@ function TopSongs() {
   const refs = useRef<Record<string, HTMLDivElement>>({});
 
   useEffect(() => {
+    const variables = {
+      userId: params.id!,
+      startDate: start.toISOString(),
+      endDate: end.toISOString(),
+      period: timePeriod,
+      first: 250,
+    };
     dispatch(
       fetchAPIRequest({
-        query: getTopSongs(
-          params.id!,
-          start.toISOString(),
-          end.toISOString(),
-          timePeriod,
-          250
-        ),
+        operationName: "getTopSongs",
         endpoint: Endpoints.topSongs,
-      })
+        variables,
+      }),
     );
   }, [dispatch, params, timePeriod, start, end]);
 
@@ -218,7 +218,7 @@ function TopSongs() {
                               alt=""
                               src={
                                 smallestThumbnail(
-                                  songNode?.song.album?.thumbnails?.nodes
+                                  songNode?.song.album?.thumbnails?.nodes,
                                 ).url
                               }
                             />

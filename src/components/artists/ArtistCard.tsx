@@ -1,4 +1,3 @@
-import Tooltip from "components/helpers/Tooltip";
 import React from "react";
 import styled from "styled-components";
 
@@ -14,7 +13,7 @@ const ArtistCardDiv = styled.div.attrs<Pick<ArtistCardProps, "x" | "y">>(
       top: props.y + 5,
       left: props.x + 5,
     },
-  })
+  }),
 )<Pick<ArtistCardProps, "x" | "y">>`
   position: fixed;
   background-color: #fff;

@@ -1,37 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useShallowSelector } from "store";
-import { Endpoints } from "types";
-import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { useParams } from "react-router-dom";
-import dayjs, { Dayjs } from "dayjs";
-import Container from "components/layout/Container";
-import styled from "styled-components";
-import { getTopSongs, timePeriods } from "graphql/topSongs";
-import { capitalize } from "lodash";
-import Tooltip from "components/helpers/Tooltip";
-import { getTopArtists } from "graphql/topArtists";
 import ArtistCard from "components/artists/ArtistCard";
+import Tooltip from "components/helpers/Tooltip";
+import Container from "components/layout/Container";
+import dayjs, { Dayjs } from "dayjs";
+import { capitalize } from "lodash";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useShallowSelector } from "store";
+import { fetchAPIRequest } from "store/reducers/common.reducer";
+import { Endpoints, ThumbnailNode, TimePeriods, timePeriods } from "types";
+import Button from "../components/helpers/Button";
 import {
-  TopArtWrapperDiv,
-  TopArtContainerDiv,
   ArtContainerDiv,
   DayMarkerDiv,
   MonthContainerDiv,
+  TopArtContainerDiv,
+  TopArtWrapperDiv,
   TopContentContainerDiv,
-  TopContentYearDiv,
   TopContentDiv,
+  TopContentYearDiv,
 } from "./TopSongs";
-import { ThumbnailNode } from "../graphql/types";
-import Button from "../components/helpers/Button";
-
-interface Timestamp {
-  start: Dayjs;
-  end: Dayjs;
-}
-
-const TopArtistsDiv = styled.div`
-  // overflow-y: scroll;
-`;
 
 const smallestThumbnail = (nodes: ThumbnailNode[]): ThumbnailNode => {
   let smallest: ThumbnailNode = nodes[0];
@@ -47,7 +34,7 @@ function TopArtists() {
   const params = useParams();
   const dispatch = useDispatch();
   const topArtists = useShallowSelector((state) => state.common.topArtists);
-  const [timePeriod, setTimePeriod] = useState<timePeriods>(timePeriods.short);
+  const [timePeriod, setTimePeriod] = useState<TimePeriods>(timePeriods.short);
 
   const [{ start, end }, setSelectedMonths] = useState<{
     start: Dayjs;
@@ -64,17 +51,19 @@ function TopArtists() {
   };
 
   useEffect(() => {
+    const variables = {
+      userId: params.id!,
+      startDate: start.toISOString(),
+      endDate: end.toISOString(),
+      period: timePeriod,
+      first: 50,
+    };
     dispatch(
       fetchAPIRequest({
-        query: getTopArtists(
-          params.id!,
-          start.toISOString(),
-          end.toISOString(),
-          timePeriod,
-          50
-        ),
+        operationName: "getTopArtists",
+        variables,
         endpoint: Endpoints.topArtists,
-      })
+      }),
     );
   }, [dispatch, params, timePeriod, start, end]);
 
@@ -150,7 +139,7 @@ function TopArtists() {
                               alt=""
                               src={
                                 smallestThumbnail(
-                                  artistNode?.artist?.thumbnails?.nodes
+                                  artistNode?.artist?.thumbnails?.nodes,
                                 ).url
                               }
                             />

@@ -1,6 +1,6 @@
-import { Meta } from "graphql/types";
-import styled from "styled-components";
 import { filter } from "lodash";
+import styled from "styled-components";
+import { Meta } from "../../types";
 
 interface PaginatorProps {
   meta: Meta;
@@ -47,7 +47,7 @@ const Paginator = ({ meta, perPage, setOffset, curPage }: PaginatorProps) => {
               {pageNumber}
             </PageButton>
           );
-        }
+        },
       )}
       <PageButton
         disabled={!meta.pageInfo.hasNextPage}

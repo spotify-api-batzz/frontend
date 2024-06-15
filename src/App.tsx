@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "store";
-import { Endpoints } from "types";
-import { fetchAPIRequest } from "store/reducers/common.reducer";
 
 function App() {
   const dispatch = useDispatch();

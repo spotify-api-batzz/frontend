@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, useShallowSelector } from "store";
-import { Endpoints } from "types";
-import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { getUsers } from "graphql/users";
-import { User } from "components/users/User";
 import Container from "components/layout/Container";
+import { User } from "components/users/User";
+import React, { useEffect } from "react";
+import { useDispatch, useShallowSelector } from "store";
+import { fetchAPIRequest } from "store/reducers/common.reducer";
+import { Endpoints } from "types";
 
 function Users() {
   const dispatch = useDispatch();
   const users = useShallowSelector((state) => state.common.users.data);
 
   useEffect(() => {
-    dispatch(fetchAPIRequest({ query: getUsers(), endpoint: Endpoints.users }));
+    dispatch(
+      fetchAPIRequest({ operationName: "getUsers", endpoint: Endpoints.users }),
+    );
   }, [dispatch]);
 
   return (

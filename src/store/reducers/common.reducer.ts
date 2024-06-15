@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Meta } from "graphql/types";
 import { pick } from "lodash";
-import { Endpoints, EndpointResponses } from "types";
+import { EndpointResponses, Endpoints, Meta } from "types";
 
 type CommonSubState<T> = {
   data: T;
@@ -28,7 +27,7 @@ const deriveMeta = (data: any): Meta | undefined => {
 
 const initialState = Object.keys(Endpoints).reduce(
   (prev, curr) => ({ ...prev, [curr]: createCommonSubstate() }),
-  {}
+  {},
 ) as CommonState;
 
 const commonSlice = createSlice({
@@ -37,7 +36,11 @@ const commonSlice = createSlice({
   reducers: {
     fetchAPIRequest(
       state,
-      action: PayloadAction<{ query: string; endpoint: Endpoints }>
+      action: PayloadAction<{
+        operationName: string;
+        endpoint: Endpoints;
+        variables?: Record<string, unknown>;
+      }>,
     ) {
       const stateToUpdate = state[action.payload.endpoint];
       stateToUpdate.loading = true;
@@ -46,14 +49,14 @@ const commonSlice = createSlice({
     },
     fetchAPISuccess(
       state,
-      action: PayloadAction<{ data: EndpointResponses; endpoint: Endpoints }>
+      action: PayloadAction<{ data: EndpointResponses; endpoint: Endpoints }>,
     ) {
       const stateToUpdate = state[action.payload.endpoint];
       stateToUpdate.loading = false;
       stateToUpdate.loaded = true;
       stateToUpdate.data = action.payload.data;
       stateToUpdate.meta = deriveMeta(
-        action.payload.data[action.payload.endpoint]
+        action.payload.data[action.payload.endpoint],
       );
     },
     fetchAPIFailure(state, action: PayloadAction<number>) {},

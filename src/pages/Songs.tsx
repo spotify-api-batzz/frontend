@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, useShallowSelector } from "store";
-import { Endpoints } from "types";
-import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { Song } from "components/songs/Song";
-import { getAllSongs } from "graphql/songs";
 import Container from "components/layout/Container";
+import { Song } from "components/songs/Song";
+import React, { useEffect } from "react";
+import { useDispatch, useShallowSelector } from "store";
+import { fetchAPIRequest } from "store/reducers/common.reducer";
+import { Endpoints } from "types";
 
 function App() {
   const dispatch = useDispatch();
@@ -12,7 +11,10 @@ function App() {
 
   useEffect(() => {
     dispatch(
-      fetchAPIRequest({ query: getAllSongs(), endpoint: Endpoints.songs })
+      fetchAPIRequest({
+        operationName: "getAllSongs",
+        endpoint: Endpoints.songs,
+      }),
     );
   }, [dispatch]);
 

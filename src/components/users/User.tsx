@@ -1,5 +1,3 @@
-import { smallestThumbnail } from "helpers/api";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -36,6 +34,10 @@ export const User = ({ name, id }: UserProps) => {
         </Link>
         <Link to={`/${id}/recentListens`}>
           <h2>Listening History</h2>
+        </Link>
+
+        <Link to={`/${id}/test`}>
+          <h2>Listening aa</h2>
         </Link>
         {/* <Link to={`/${id}/aggregate`}>
           <h2>Aggregates</h2>

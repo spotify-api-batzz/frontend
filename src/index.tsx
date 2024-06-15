@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
 import "./app.sass";
-
 import { Provider } from "react-redux"; // Redux
 import store from "./store";
 import Routes from "pages/Routes";

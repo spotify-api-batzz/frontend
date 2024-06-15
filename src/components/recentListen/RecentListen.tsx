@@ -3,9 +3,9 @@ import {
   SongImageWrapperDiv,
   SongInformationDiv,
 } from "components/songs/Song";
-import { Album, Artist, ThumbnailNode } from "graphql/types";
 import { smallestThumbnail } from "helpers/api";
 import { useEffect, useState } from "react";
+import { Album, Artist, ThumbnailNode } from "../../types";
 
 interface RecentListenProps {
   name: string;
@@ -16,7 +16,7 @@ interface RecentListenProps {
 
 const RecentListen = ({ name, diff, album, artist }: RecentListenProps) => {
   const [thumbnail, setThumbnail] = useState<ThumbnailNode | undefined>(
-    undefined
+    undefined,
   );
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const RecentListen = ({ name, diff, album, artist }: RecentListenProps) => {
     <SongDiv>
       {thumbnail && (
         <SongImageWrapperDiv>
-          <img src={thumbnail.url} />
+          <img src={thumbnail.url} alt="song thumbnail" />
         </SongImageWrapperDiv>
       )}
       <SongInformationDiv>

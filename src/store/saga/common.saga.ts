@@ -1,25 +1,23 @@
+import { AxiosResponse } from "axios";
+import { Buffer } from "buffer";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+// Helpers
+import request from "helpers/request";
+import { isEqual, map } from "lodash";
+import queryString from "query-string";
 import { all, put, takeEvery } from "redux-saga/effects";
-
+import { EndpointResponses, Endpoints, TopSongs } from "types";
 // Actions
 import { fetchAPIRequest, fetchAPISuccess } from "../reducers/common.reducer";
 
-// Helpers
-import request from "helpers/request";
-import { AxiosResponse } from "axios";
-import queryString from "query-string";
-import { Buffer } from "buffer";
-import { Endpoints, EndpointResponses } from "types";
-import { isEqual, map } from "lodash";
-import { TopSongs } from "graphql/types";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 let topSongHandler = (data: TopSongs) => {
   data.topSongs.nodes = data.topSongs?.nodes.filter((node, i) => {
     const isSameAsLast = isEqual(
       map(node.topSongData.nodes, (a) => a.song.id),
-      map(data.topSongs.nodes[i - 1]?.topSongData.nodes, (a) => a.song.id)
+      map(data.topSongs.nodes[i - 1]?.topSongData.nodes, (a) => a.song.id),
     );
     if (isSameAsLast) return false;
     return true;
@@ -30,7 +28,7 @@ let topSongHandler = (data: TopSongs) => {
 // figure out stronger typing if possible, not a fan of the casting
 const applyEndpointMiddleware = <T extends keyof typeof Endpoints>(
   endpoint: T,
-  data: EndpointResponses[T]
+  data: EndpointResponses[T],
 ): any => {
   switch (endpoint) {
     case "topSongs":
@@ -52,12 +50,19 @@ const getEndpointTime = (endpoint: keyof typeof Endpoints) => {
 };
 
 function* get({
-  payload: { query, endpoint },
+  payload: { operationName, endpoint, variables },
 }: ReturnType<typeof fetchAPIRequest>) {
   try {
-    const b64Query = Buffer.from(query).toString("base64");
+    console.log("!!??");
+    const vars = variables
+      ? Buffer.from(JSON.stringify(variables)).toString("base64")
+      : undefined;
     const hour = getEndpointTime(endpoint);
-    const queryParams = queryString.stringify({ query: b64Query, hour });
+    const queryParams = queryString.stringify({
+      operationName,
+      hour,
+      variables: vars,
+    });
 
     let req: AxiosResponse<any> = yield request.get(`/graphql?${queryParams}`, {
       headers: {
@@ -71,7 +76,7 @@ function* get({
       fetchAPISuccess({
         data,
         endpoint,
-      })
+      }),
     );
   } catch (error) {
     console.error(error);

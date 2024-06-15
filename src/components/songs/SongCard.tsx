@@ -1,4 +1,3 @@
-import Tooltip from "components/helpers/Tooltip";
 import React from "react";
 import styled from "styled-components";
 
@@ -16,7 +15,7 @@ const SongCardDiv = styled.div.attrs<Pick<SongCardProps, "x" | "y">>(
       top: props.y + 5,
       left: props.x + 5,
     },
-  })
+  }),
 )<Pick<SongCardProps, "x" | "y">>`
   position: fixed;
   background-color: #fff;

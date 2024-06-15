@@ -1,7 +1,7 @@
 import { smallestThumbnail } from "helpers/api";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Album, Artist, ThumbnailNode } from "graphql/types";
+import { Album, Artist, ThumbnailNode } from "../../types";
 
 interface SongProps {
   name: string;
@@ -40,20 +40,20 @@ export const SongImageWrapperDiv = styled.div`
 
 export const Song = ({ name, album, artist }: SongProps) => {
   const [thumbnail, setThumbnail] = useState<ThumbnailNode | undefined>(
-    undefined
+    undefined,
   );
 
   useEffect(() => {
     if (album?.thumbnails) {
       setThumbnail(smallestThumbnail(album?.thumbnails.nodes));
     }
-  }, []);
+  }, [album?.thumbnails]);
 
   return (
     <SongDiv>
       {thumbnail && (
         <SongImageWrapperDiv>
-          <img src={thumbnail.url} />
+          <img src={thumbnail.url} alt="song thumbnail" />
         </SongImageWrapperDiv>
       )}
       <SongInformationDiv>
