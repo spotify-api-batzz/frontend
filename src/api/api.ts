@@ -1,6 +1,6 @@
 import { $fetch } from "ofetch";
 import qs from "qs";
-import { ListensPerDay, Stats } from "./types";
+import { ListensPerDay, Stats, TimeOfDay } from "./types";
 
 // TODO: shared fetch instance unsntatic methods iwth a singleton? or provider..
 class API {
@@ -18,6 +18,7 @@ class API {
       before: before?.valueOf(),
       after: after?.valueOf(),
       userId,
+      hour: 1,
     });
 
     return $fetch(API.makeUrl(`/aggregate/listensPerDay?${queryString}`));
@@ -27,11 +28,12 @@ class API {
     userId: string,
     before?: Date,
     after?: Date,
-  ): Promise<ListensPerDay[]> => {
+  ): Promise<TimeOfDay[]> => {
     const queryString = qs.stringify({
       before: before?.valueOf(),
       after: after?.valueOf(),
       userId,
+      hour: 1,
     });
 
     return $fetch(API.makeUrl(`/aggregate/timeOfDay?${queryString}`));
@@ -40,6 +42,7 @@ class API {
   static stats = async (userId: string): Promise<Stats> => {
     const queryString = qs.stringify({
       userId,
+      hour: 1,
     });
 
     return $fetch(API.makeUrl(`/aggregate/stats?${queryString}`));

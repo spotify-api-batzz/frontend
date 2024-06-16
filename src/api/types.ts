@@ -5,7 +5,7 @@ export interface ListensPerDay {
   data: { name: string }[];
 }
 
-export interface ListensPerDay {
+export interface TimeOfDay {
   hour: string;
   count: number;
 }

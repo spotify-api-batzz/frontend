@@ -1,16 +1,15 @@
+import Header from "components/layout/Header";
 import {
   BrowserRouter,
-  Routes as ReactRouterRoutes,
   Route,
+  Routes as ReactRouterRoutes,
 } from "react-router-dom";
-import Songs from "./Songs";
-import Users from "./Users";
 import RecentListens from "./RecentListens";
-import Header from "components/layout/Header";
-import TopSongs from "./TopSongs";
+import Songs from "./Songs";
+import Stats from "./Stats";
 import TopArtists from "./TopArtists";
-import TopRecentListened from "./TopRecentListened";
-import Test from "./Test";
+import TopSongs from "./TopSongs";
+import Users from "./Users";
 
 const Routes = () => (
   <BrowserRouter>
@@ -21,8 +20,8 @@ const Routes = () => (
       <Route path=":id/topsongs" element={<TopSongs />} />
       <Route path=":id/topartists" element={<TopArtists />} />
       <Route path=":id/recentlistens" element={<RecentListens />} />
-      <Route path=":id/aggregate" element={<TopRecentListened />} />
-      <Route path=":id/test" element={<Test />} />
+      {/* <Route path=":id/aggregate" element={<TopRecentListened />} /> */}
+      <Route path=":id/aggregate" element={<Stats />} />
     </ReactRouterRoutes>
   </BrowserRouter>
 );

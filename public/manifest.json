@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Spotify statistics",
+  "name": "Spotify statistics, an aggregated insight into your listening history",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,11 +1,15 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import * as echarts from "echarts";
 import ReactECharts from "echarts-for-react";
 import API from "../../api/api";
+import Card from "../helpers/Card";
 
-const TimeOfDay: React.FC<{ userId: string }> = ({ userId }) => {
+interface TimeOfDayChartProps {
+  userId: string;
+}
+
+const TimeOfDayChart: React.FC<TimeOfDayChartProps> = ({ userId }) => {
   const timeOfDay = useQuery({
     queryKey: ["timeOfDay"],
     queryFn: () => {
@@ -21,22 +25,26 @@ const TimeOfDay: React.FC<{ userId: string }> = ({ userId }) => {
     return <></>;
   }
 
+  const findCountForHour = (hour: number) =>
+    timeOfDay.data.find((t) => String(hour) === t.hour)?.count ?? 0;
+
+  const DayHourIndexArray = new Array(24).fill(0).map((_, hour) => hour);
+
+  const xValues = DayHourIndexArray.map((hour) => hour + 1);
+  const barChartData = DayHourIndexArray.map((hour) => findCountForHour(hour));
+
   const option: echarts.EChartsOption = {
+    grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
       type: "category",
-      data: new Array(24).fill(0).map((_, x) => x + 1),
+      data: xValues,
     },
     yAxis: {
       type: "value",
     },
     series: [
       {
-        data: new Array(24)
-          .fill(0)
-          .map(
-            (_, x) =>
-              timeOfDay.data.find((t) => String(x) === t.hour)?.count ?? 0,
-          ),
+        data: barChartData,
         type: "bar",
         name: "Song count",
       },
@@ -52,21 +60,19 @@ const TimeOfDay: React.FC<{ userId: string }> = ({ userId }) => {
       },
     },
   };
+
   return (
-    <div style={{ width: 800 }}>
-      <Card className="max-w-[400px] mb-2.5">
-        <CardHeader className="flex gap-3">
-          <h1 className="block font-semibold text-gray-900">Listens per day</h1>
-        </CardHeader>
-        <CardBody className="flex gap-3 flex-row">
-          <ReactECharts
-            style={{ height: "300px", width: "100%" }}
-            option={option}
-          />
-        </CardBody>
-      </Card>
-    </div>
+    <Card
+      title="Music listening frequency by hour"
+      width="50%"
+      chunks={[
+        <ReactECharts
+          style={{ height: "300px", width: "100%" }}
+          option={option}
+        />,
+      ]}
+    />
   );
 };
 
-export default TimeOfDay;
+export default TimeOfDayChart;

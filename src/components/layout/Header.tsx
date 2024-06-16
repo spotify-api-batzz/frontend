@@ -15,7 +15,7 @@ const HeaderWrapperDiv = styled.div`
         color: #000;
         text-underline: none;
         margin: 0;
-        font-size: 22px;
+        font-size: 26px;
       }
     }
   }
@@ -26,7 +26,7 @@ const Header = () => {
     <HeaderWrapperDiv>
       <div>
         <Link to={`/`}>
-          <h1>Spotify Data</h1>
+          <h1>Spotify Statistics</h1>
         </Link>
       </div>
     </HeaderWrapperDiv>
