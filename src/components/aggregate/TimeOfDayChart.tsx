@@ -64,7 +64,7 @@ const TimeOfDayChart: React.FC<TimeOfDayChartProps> = ({ userId }) => {
   return (
     <Card
       title="Music listening frequency by hour"
-      width="50%"
+      size="half"
       chunks={[
         <ReactECharts
           style={{ height: "300px", width: "100%" }}

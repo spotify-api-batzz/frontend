@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import API from "../../api/api";
+import Flex from "../helpers/Flex";
 import Count from "./Count";
 import TimeOfDayStats from "./TimeOfDayStats";
 import UniqueStats from "./Uniques";
@@ -22,13 +23,14 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
   const { songs, albums } = listensPerDay.data;
 
   return (
-    <div style={{ display: "flex", flexFlow: "column" }}>
+    <div>
       <Count aggregation={songs} entityName="song" />
       <Count aggregation={albums} entityName="album" />
-      <div style={{ display: "flex" }}>
+      <Flex flow="row">
+        <h1>General statistics</h1>
         <TimeOfDayStats timeListenedTo={listensPerDay.data.timeListenedTo} />
         <UniqueStats stats={listensPerDay.data} />
-      </div>
+      </Flex>
     </div>
   );
 };

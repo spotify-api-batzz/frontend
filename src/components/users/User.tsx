@@ -21,7 +21,7 @@ export const User = ({ name, id }: UserProps) => {
   return (
     <Card
       title={name}
-      width="25%"
+      size="quarter"
       chunks={[
         <div>
           <LinkContainer>

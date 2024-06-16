@@ -95,7 +95,7 @@ const ListensPerDayChart: React.FC<ListensPerDayChartProps> = ({ userId }) => {
   return (
     <Card
       title="Listens per day"
-      width="50%"
+      size="half"
       chunks={[
         <ReactECharts
           style={{ height: "300px", width: "100%" }}

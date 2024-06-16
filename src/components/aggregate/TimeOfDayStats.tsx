@@ -14,7 +14,7 @@ const TimeOfDayStats: React.FC<TimeOfDayStatsProps> = ({ timeListenedTo }) => {
     </div>
   ));
 
-  return <Card title="Time of day" chunks={chunks} width="50%" />;
+  return <Card title="Time of day" chunks={chunks} size="half" />;
 };
 
 export default TimeOfDayStats;

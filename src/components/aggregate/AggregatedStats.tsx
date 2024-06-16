@@ -11,6 +11,7 @@ interface AggregatedStatsProps {
 
 const GraphContainerDiv = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin: 0 0 20px 0;
 `;
 

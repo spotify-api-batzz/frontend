@@ -27,7 +27,7 @@ const UniqueStats: React.FC<UniqueStatsProps> = ({ stats }) => {
     </div>
   ));
 
-  return <Card width="50%" title="How unique are you" chunks={chunks} />;
+  return <Card size="half" title="How unique are you" chunks={chunks} />;
 };
 
 export default UniqueStats;

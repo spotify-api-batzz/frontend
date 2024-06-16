@@ -3,6 +3,7 @@ import _ from "lodash";
 import React from "react";
 import { EntityAggregation, EntityCount } from "../../api/types";
 import Card from "../helpers/Card";
+import Flex from "../helpers/Flex";
 const entityCountTypes = [
   {
     type: "all time",
@@ -24,7 +25,7 @@ const Count: React.FC<{
 }> = ({ aggregation, entityName }) => (
   <>
     <h1>Top {_.capitalize(entityName)} by period</h1>
-    <div style={{ display: "flex" }}>
+    <Flex flow="row" className="lool">
       {entityCountTypes.map(({ type, key }) => (
         <EntityCounts
           entities={aggregation[key]}
@@ -32,7 +33,7 @@ const Count: React.FC<{
           type={type}
         />
       ))}
-    </div>
+    </Flex>
   </>
 );
 
@@ -60,7 +61,7 @@ const EntityCounts: React.FC<{
   return (
     <Card
       title={`Top ${entityName}s of ${type}`}
-      width="33.3333%"
+      size="third"
       chunks={chunks}
     />
   );
