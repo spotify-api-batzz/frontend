@@ -26,10 +26,12 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
     <div>
       <Count aggregation={songs} entityName="song" />
       <Count aggregation={albums} entityName="album" />
-      <Flex flow="row">
+      <Flex flow="column">
         <h1>General statistics</h1>
-        <TimeOfDayStats timeListenedTo={listensPerDay.data.timeListenedTo} />
-        <UniqueStats stats={listensPerDay.data} />
+        <Flex flow="row">
+          <TimeOfDayStats timeListenedTo={listensPerDay.data.timeListenedTo} />
+          <UniqueStats stats={listensPerDay.data} />
+        </Flex>
       </Flex>
     </div>
   );
