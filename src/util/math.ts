@@ -5,7 +5,7 @@ export const polynomialRegression = (
   xValues: number[],
   yValues: number[],
   degree: number,
-): number[] => {
+): number[] | null => {
   console.log(xValues, yValues);
   const matrixX = [];
   const vectorY = [];
@@ -18,12 +18,16 @@ export const polynomialRegression = (
     vectorY.push([yValues[i]]);
   }
 
-  const matrixXT = transpose(matrixX);
-  const matrixXTX = multiply(matrixXT, matrixX);
-  const matrixXTY = multiply(matrixXT, vectorY);
-  const coefficients = lusolve(matrixXTX, matrixXTY);
+  try {
+    const matrixXT = transpose(matrixX);
+    const matrixXTX = multiply(matrixXT, matrixX);
+    const matrixXTY = multiply(matrixXT, vectorY);
+    const coefficients = lusolve(matrixXTX, matrixXTY);
 
-  return coefficients.map((row: any) => row[0]);
+    return coefficients.map((row: any) => row[0]);
+  } catch (e) {
+    return null;
+  }
 };
 
 // Function to generate points for the polynomial regression line

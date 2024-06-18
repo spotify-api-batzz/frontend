@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import * as echarts from "echarts";
 import ReactECharts from "echarts-for-react";
+import { useMemo } from "react";
 import API from "../../api/api";
 import {
   generatePolynomialPoints,
@@ -25,22 +26,54 @@ const ListensPerDayChart: React.FC<ListensPerDayChartProps> = ({ userId }) => {
     },
   });
 
+  const series = useMemo(() => {
+    if (!listensPerDay?.data?.length) {
+      return [];
+    }
+
+    const listenPerDayValues = listensPerDay.data.map(({ count }) => count);
+
+    const baseSeries: echarts.EChartsOption["series"] = [
+      {
+        data: listenPerDayValues,
+        type: "line",
+        smooth: true,
+        showSymbol: false,
+      },
+    ];
+
+    const xValues = listensPerDay.data.map((_, index) => index);
+    const degree = 30;
+    const coefficients1 = polynomialRegression(
+      xValues,
+      listensPerDay.data.map((d) => d.count),
+      degree,
+    );
+
+    if (coefficients1) {
+      console.log("??");
+      const trendLineValues = generatePolynomialPoints(xValues, coefficients1);
+      baseSeries.push({
+        label: {
+          show: false,
+        },
+        showSymbol: false,
+        name: "trend",
+        data: trendLineValues,
+        type: "line",
+        smooth: true,
+        color: "rgba(0,0,0,.2)",
+      });
+    }
+
+    return baseSeries;
+  }, [listensPerDay.data]);
+
   if (listensPerDay.isLoading || !listensPerDay.data) {
     return <></>;
   }
 
-  const xValues = listensPerDay.data.map((_, index) => index);
-
-  const degree = 30;
-  const coefficients1 = polynomialRegression(
-    xValues,
-    listensPerDay.data.map((d) => d.count),
-    degree,
-  );
-
   const XAxisValues = listensPerDay.data.map(({ day }) => day);
-  const listenPerDayValues = listensPerDay.data.map(({ count }) => count);
-  const trendLineValues = generatePolynomialPoints(xValues, coefficients1);
   const options: echarts.EChartsOption = {
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
@@ -59,25 +92,7 @@ const ListensPerDayChart: React.FC<ListensPerDayChartProps> = ({ userId }) => {
       name: "Listen count",
       min: 0,
     },
-    series: [
-      {
-        data: listenPerDayValues,
-        type: "line",
-        smooth: true,
-        showSymbol: false,
-      },
-      {
-        label: {
-          show: false,
-        },
-        showSymbol: false,
-        name: "trend",
-        data: trendLineValues,
-        type: "line",
-        smooth: true,
-        color: "rgba(0,0,0,.2)",
-      },
-    ],
+    series,
     tooltip: {
       trigger: "axis",
       formatter: (params: any) => {
