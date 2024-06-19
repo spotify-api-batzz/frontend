@@ -13,10 +13,11 @@ const TimeOfDayChart: React.FC<TimeOfDayChartProps> = ({ userId }) => {
   const timeOfDay = useQuery({
     queryKey: ["timeOfDay"],
     queryFn: () => {
+      const baseDate = dayjs().utc().startOf("day");
       return API.timeOfDay(
         userId,
-        dayjs().toDate(),
-        dayjs().subtract(3, "month").toDate(),
+        baseDate.toDate(),
+        baseDate.subtract(3, "month").toDate(),
       );
     },
   });

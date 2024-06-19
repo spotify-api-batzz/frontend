@@ -18,10 +18,11 @@ const ListensPerDayChart: React.FC<ListensPerDayChartProps> = ({ userId }) => {
   const listensPerDay = useQuery({
     queryKey: ["listensPerDay"],
     queryFn: () => {
+      const baseDate = dayjs().utc().startOf("day");
       return API.listensPerDay(
         userId,
-        dayjs().toDate(),
-        dayjs().subtract(3, "month").toDate(),
+        baseDate.toDate(),
+        baseDate.subtract(3, "month").toDate(),
       );
     },
   });
