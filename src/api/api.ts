@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { $fetch } from "ofetch";
 import qs from "qs";
 import { ListensPerDay, Stats, TimeOfDay } from "./types";
@@ -14,11 +15,12 @@ class API {
     before?: Date,
     after?: Date,
   ): Promise<ListensPerDay[]> => {
+    const utcHour = dayjs.utc().hour();
     const queryString = qs.stringify({
       before: before?.valueOf(),
       after: after?.valueOf(),
       userId,
-      hour: 1,
+      hour: utcHour,
     });
 
     return $fetch(API.makeUrl(`/aggregate/listensPerDay?${queryString}`));
@@ -29,20 +31,22 @@ class API {
     before?: Date,
     after?: Date,
   ): Promise<TimeOfDay[]> => {
+    const utcHour = dayjs.utc().hour();
     const queryString = qs.stringify({
       before: before?.valueOf(),
       after: after?.valueOf(),
       userId,
-      hour: 1,
+      hour: utcHour,
     });
 
     return $fetch(API.makeUrl(`/aggregate/timeOfDay?${queryString}`));
   };
 
   static stats = async (userId: string): Promise<Stats> => {
+    const utcHour = dayjs.utc().hour();
     const queryString = qs.stringify({
       userId,
-      hour: 1,
+      hour: utcHour,
     });
 
     return $fetch(API.makeUrl(`/aggregate/stats?${queryString}`));
