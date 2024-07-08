@@ -1,15 +1,15 @@
-import Button from "components/helpers/Button";
-import Tooltip from "components/helpers/Tooltip";
-import Container from "components/layout/Container";
-import SongCard from "components/songs/SongCard";
+import Button from "@src/components/helpers/Button";
+import Tooltip from "@src/components/helpers/Tooltip";
+import Container from "@src/components/layout/Container";
+import SongCard from "@src/components/songs/SongCard";
+import { useDispatch, useShallowSelector } from "@src/store";
+import { fetchAPIRequest } from "@src/store/reducers/common.reducer";
+import { Endpoints, ThumbnailNode, TimePeriods, timePeriods } from "@src/types";
 import dayjs, { Dayjs } from "dayjs";
 import { capitalize } from "lodash";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useShallowSelector } from "store";
-import { fetchAPIRequest } from "store/reducers/common.reducer";
 import styled from "styled-components";
-import { Endpoints, ThumbnailNode, TimePeriods, timePeriods } from "types";
 
 export const TopArtContainerDiv = styled.div`
   margin: 0 0 10px;

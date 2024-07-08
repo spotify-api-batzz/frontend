@@ -1,13 +1,13 @@
-import Container from "components/layout/Container";
-import Paginator from "components/layout/Paginator";
-import RecentListen from "components/recentListen/RecentListen";
+import Container from "@src/components/layout/Container";
+import Paginator from "@src/components/layout/Paginator";
+import RecentListen from "@src/components/recentListen/RecentListen";
+import { useDispatch, useShallowSelector } from "@src/store";
+import { Endpoints } from "@src/types";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useShallowSelector } from "store";
 import { fetchAPIRequest } from "store/reducers/common.reducer";
 import styled from "styled-components";
-import { Endpoints } from "types";
 
 const RecentListensWrapperDiv = styled.div`
   margin: 20px 0 0 0;

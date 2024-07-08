@@ -1,16 +1,18 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Routes from "pages/Routes";
 import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux"; // Redux
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import "./output.css";
+import Routes from "./pages/Routes";
 import reportWebVitals from "./reportWebVitals";
 import store from "./store";
 
 const queryClient = new QueryClient();
+const container = document.getElementById("root");
+const root = createRoot(container!);
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <NextUIProvider>
@@ -20,7 +22,6 @@ ReactDOM.render(
       </NextUIProvider>
     </QueryClientProvider>
   </React.StrictMode>,
-  document.getElementById("root"),
 );
 
 // If you want to start measuring performance in your app, pass a function

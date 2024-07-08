@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { pick } from "lodash";
-import { EndpointResponses, Endpoints, Meta } from "types";
+import { EndpointResponses, Endpoints, Meta } from "../../types";
 
 type CommonSubState<T> = {
   data: T;

@@ -1,13 +1,13 @@
-import ArtistCard from "components/artists/ArtistCard";
-import Tooltip from "components/helpers/Tooltip";
-import Container from "components/layout/Container";
+import ArtistCard from "@src/components/artists/ArtistCard";
+import Tooltip from "@src/components/helpers/Tooltip";
+import Container from "@src/components/layout/Container";
+import { useDispatch, useShallowSelector } from "@src/store";
+import { Endpoints, ThumbnailNode, TimePeriods, timePeriods } from "@src/types";
 import dayjs, { Dayjs } from "dayjs";
 import { capitalize } from "lodash";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useShallowSelector } from "store";
 import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { Endpoints, ThumbnailNode, TimePeriods, timePeriods } from "types";
 import Button from "../components/helpers/Button";
 import {
   ArtContainerDiv,

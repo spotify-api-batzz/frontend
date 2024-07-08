@@ -13,11 +13,10 @@ const UsersContainer = styled.div`
 `;
 
 const Users: React.FC<UsersProps> = ({ users }) => {
-  console.log(users);
   return (
     <UsersContainer>
       {users.map(({ username, id }) => (
-        <User name={username} id={id} />
+        <User key={id} name={username} id={id} />
       ))}
     </UsersContainer>
   );

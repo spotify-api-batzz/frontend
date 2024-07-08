@@ -2,7 +2,7 @@ import {
   SongDiv,
   SongImageWrapperDiv,
   SongInformationDiv,
-} from "components/songs/Song";
+} from "@src/components/songs/Song";
 import { smallestThumbnail } from "helpers/api";
 import { useEffect, useState } from "react";
 import { Album, Artist, ThumbnailNode } from "../../types";

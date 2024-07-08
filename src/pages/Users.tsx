@@ -1,8 +1,8 @@
-import Container from "components/layout/Container";
-import React, { useEffect } from "react";
-import { useDispatch, useShallowSelector } from "store";
+import Container from "@src/components/layout/Container";
+import { useDispatch, useShallowSelector } from "@src/store";
+import { Endpoints } from "@src/types";
+import { useEffect } from "react";
 import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { Endpoints } from "types";
 import Users from "../components/users/Users";
 
 function UsersPage() {
@@ -14,7 +14,6 @@ function UsersPage() {
       fetchAPIRequest({ operationName: "getUsers", endpoint: Endpoints.users }),
     );
   }, [dispatch]);
-  console.log(users);
 
   if (!users?.users?.nodes?.length) {
     return <></>;

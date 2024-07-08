@@ -3,11 +3,11 @@ import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 // Helpers
-import request from "helpers/request";
 import { isEqual, map } from "lodash";
 import queryString from "query-string";
 import { all, put, takeEvery } from "redux-saga/effects";
 import { EndpointResponses, Endpoints, TopSongs } from "types";
+import request from "../../helpers/request";
 // Actions
 import { fetchAPIRequest, fetchAPISuccess } from "../reducers/common.reducer";
 
@@ -53,7 +53,6 @@ function* get({
   payload: { operationName, endpoint, variables },
 }: ReturnType<typeof fetchAPIRequest>) {
   try {
-    console.log("!!??");
     const vars = variables
       ? Buffer.from(JSON.stringify(variables)).toString("base64")
       : undefined;

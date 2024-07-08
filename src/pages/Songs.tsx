@@ -1,9 +1,9 @@
-import Container from "components/layout/Container";
-import { Song } from "components/songs/Song";
-import React, { useEffect } from "react";
-import { useDispatch, useShallowSelector } from "store";
+import Container from "@src/components/layout/Container";
+import { Song } from "@src/components/songs/Song";
+import { useDispatch, useShallowSelector } from "@src/store";
+import { Endpoints } from "@src/types";
+import { useEffect } from "react";
 import { fetchAPIRequest } from "store/reducers/common.reducer";
-import { Endpoints } from "types";
 
 function App() {
   const dispatch = useDispatch();

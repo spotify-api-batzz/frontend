@@ -4,6 +4,7 @@ import {
   CardHeader,
   Divider,
 } from "@nextui-org/react";
+import { Fragment } from "react/jsx-runtime";
 import styled from "styled-components";
 
 interface CardProps {
@@ -62,11 +63,11 @@ const Card: React.FC<CardProps> = ({ title, chunks, size }) => (
       <CardHeader className="flex gap-3">
         <h1 className="block font-semibold text-gray-900">{title}</h1>
       </CardHeader>
-      {chunks.map((chunk) => (
-        <>
+      {chunks.map((chunk, i) => (
+        <Fragment key={i}>
           <Divider />
           <CardBody className="flex gap-3 flex-row">{chunk}</CardBody>
-        </>
+        </Fragment>
       ))}
     </NextCard>
   </CardWrapperDiv>

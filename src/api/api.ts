@@ -6,7 +6,7 @@ import { ListensPerDay, Stats, TimeOfDay } from "./types";
 // TODO: shared fetch instance unsntatic methods iwth a singleton? or provider..
 class API {
   static makeUrl = (url: string) => {
-    const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
     return `${baseUrl}${url}`;
   };
 
